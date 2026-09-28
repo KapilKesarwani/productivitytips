@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Tips</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .tip-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .tip-text {
+            font-size: 1.3em;
+            line-height: 1.6;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .tip-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .tip-container {
+            position: relative;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tip-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💡 Productivity Tips</h1>
+        
+        <div class="tip-container" id="tipContainer">
+            <div class="tip-number" id="tipNumber">1</div>
+            <div class="tip-text" id="tipText">Click the button below to get your first productivity tip!</div>
+        </div>
+        
+        <button onclick="getRandomTip()" id="tipButton">Get New Tip</button>
+        
+        <div class="stats" id="stats">Ready to boost your productivity?</div>
+    </div>
+
+    <script>
+        const productivityTips = [
+            "Use the 2-minute rule: If something takes less than 2 minutes, do it immediately instead of putting it off.",
+            "Try the Pomodoro Technique: Work for 25 minutes, then take a 5-minute break. Repeat 4 times, then take a longer break.",
+            "Batch similar tasks together to minimize context switching and maximize focus.",
+            "Keep your workspace clean and organized. A cluttered desk often leads to a cluttered mind.",
+            "Start your day by tackling your most important or challenging task first (eat the frog).",
+            "Use the 80/20 rule: Focus on the 20% of tasks that will give you 80% of the results.",
+            "Turn off non-essential notifications to minimize distractions during focused work time.",
+            "Plan your day the night before to hit the ground running in the morning.",
+            "Take regular breaks to maintain energy and focus throughout the day.",
+            "Use time-blocking to schedule specific times for different types of work.",
+            "Create templates for recurring tasks to save time and ensure consistency.",
+            "Learn to say 'no' to commitments that don't align with your priorities.",
+            "Use the 'Getting Things Done' method: capture, clarify, organize, reflect, and engage.",
+            "Set specific, measurable goals rather than vague objectives.",
+            "Eliminate or automate repetitive tasks whenever possible.",
+            "Use keyboard shortcuts to speed up common computer tasks.",
+            "Keep a 'done' list alongside your to-do list to track your accomplishments.",
+            "Group meetings together to create longer blocks of uninterrupted work time.",
+            "Use the 'three-task rule': Focus on completing just three important tasks each day.",
+            "Create a consistent morning routine to start your day with intention and energy.",
+            "Practice single-tasking instead of multitasking for better focus and quality.",
+            "Use visual cues and reminders to keep important tasks top-of-mind.",
+            "Set boundaries around your time and communicate them clearly to others.",
+            "Regular exercise and proper sleep are essential for maintaining peak productivity.",
+            "Use project management tools to track progress and stay organized on larger tasks."
+        ];
+
+        let currentTipIndex = -1;
+        let tipsViewed = 0;
+
+        function getRandomTip() {
+            const tipContainer = document.getElementById('tipContainer');
+            const tipText = document.getElementById('tipText');
+            const tipNumber = document.getElementById('tipNumber');
+            const stats = document.getElementById('stats');
+            const button = document.getElementById('tipButton');
+
+            // Get a random tip that's different from the current one
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * productivityTips.length);
+            } while (newIndex === currentTipIndex && productivityTips.length > 1);
+
+            currentTipIndex = newIndex;
+            tipsViewed++;
+
+            // Add fade animation
+            tipContainer.classList.remove('fade-in');
+            
+            setTimeout(() => {
+                tipText.textContent = productivityTips[currentTipIndex];
+                tipNumber.textContent = tipsViewed;
+                tipContainer.classList.add('fade-in');
+                
+                // Update stats
+                stats.textContent = `Tip ${tipsViewed} of ${productivityTips.length} • Keep going!`;
+                
+                // Update button text
+                button.textContent = tipsViewed === 1 ? 'Get Another Tip' : 'Next Tip';
+            }, 150);
+        }
+
+        // Initialize with first tip on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                getRandomTip();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
